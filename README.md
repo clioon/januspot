@@ -6,7 +6,7 @@
 ![AWS](https://img.shields.io/badge/AWS-EC2-FF9900?logo=amazonaws&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white)
 
-This project is a modular, Dockerized, medium-interaction **honeypot** designed to attract, deceive, and log automated attack vectors in real-time. It emulates common services (like Telnet and FTP) on multiple ports, captures credentials (usernouns, passwords), and logs the shell commands attackers attempt to execute after a "successful" login.
+This project is a modular, Dockerized, medium-interaction **honeypot** designed to attract, deceive, and log automated attack vectors in real-time. It emulates common services (like Telnet and FTP) on multiple ports, captures credentials (usernames, passwords), and logs the shell commands attackers attempt to execute after a "successful" login.
 
 The entire project is packaged with Docker and automated with shell scripts, allowing deployment on any server (like an AWS EC2 instance).
 
@@ -19,10 +19,12 @@ The entire project is packaged with Docker and automated with shell scripts, all
 * **Multi-Port Listener:** Uses `threading` to listen on multiple ports simultaneously (e.g., 21, 23).
 * **Modular Service Emulation:** Loads service profiles from `banners.py` to emulate different services (Telnet, FTP, Cisco Routers, etc.).
 * **Medium-Interaction Honeypot:** Simulates a state machine (Login -> Password -> Shell) to deceive bots into revealing their full payloads.
-* **Threat Intelligence:** Captures attacker IP, Geolocation (Country, ASN), and all interactions (usernouns, passwords, commands).
+* **Threat Intelligence:** Captures attacker IP, Geolocation (Country, ASN), and all interactions (usernames, passwords, commands).
 * **Docker-Ready:** Fully containerized for rapid, isolated, and secure deployment.
 * **Deployment Automation:** Includes a `run.sh` script that automatically stops, rebuilds, and relaunches the container with the correct configuration.
 * **Persistent & Safe Logging:** Creates a separate log file for each monitored port (e.g., `logs/honeypot_port_23.log`).
+
+---
 
 ## 🚀 Getting Started
 
@@ -67,7 +69,20 @@ HONEYPOT_PORTS="21:ftp_vsftpd,23:telnet_ubuntu"
 PYTHONUNBUFFERED=1
 ```
 
-### 3. Build and Run the Honeypot
+### 3. Network Configuration (Firewall)
+
+For the honeypot to receive "attacks", the ports you configured in the .env file must be open to the public internet.
+
+> Example: if using AWS EC2 (Security Groups):
+> - Go to your EC2 Instance Console.
+> - Navigate to Security Groups -> Edit inbound rules.
+> - Add a Custom TCP Rule for each port in your HONEYPOT_PORTS (e.g., 21, 23, 6379, 8080).
+> - Source: Set to Anywhere-IPv4 (0.0.0.0/0).
+
+> [!IMPORTANT]
+> SSH Security: If you are monitoring port 22 as a honeypot, move your real SSH service to a different port (e.g., 2222) before opening port 22 to the world.
+
+### 4. Build and Run the Honeypot
 
 The entire build and run process is automated with a shell script.
 
@@ -89,7 +104,7 @@ This script will automatically:
 5.  Start the new container in detached (`-d`) mode with logs mapped to the `./logs` folder.
 6.  Show you the live logs (`docker logs -f`).
 
-### 4. Monitoring
+### 5. Monitoring
 
 There are two ways to see what your honeypot is doing:
 
@@ -107,7 +122,7 @@ There are two ways to see what your honeypot is doing:
     tail -f logs/honeypot_port_23.log
     ```
 
-### 5. Stopping the Honeypot
+### 6. Stopping the Honeypot
 
 To stop the container, use the standard Docker command:
 ```bash
