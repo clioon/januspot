@@ -58,9 +58,10 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "[*] Container started!"
-# echo "[*] Entering container terminal"
-# sudo docker exec -it $CONTAINER_NAME /bin/bash
+echo "[*] Entering container terminal"
+echo "[*] Enter 'exit' to exit the terminal"
+sudo docker exec -it $CONTAINER_NAME /bin/bash
 
-echo "[*] Press [Ctrl+C] to stop viewing logs"
-echo "--- Honeypot Logs (Live) ---"
-sudo docker logs -f $CONTAINER_NAME
+#echo "[*] Press [Ctrl+C] to stop viewing logs"
+#echo "--- Honeypot Logs (Live) ---"
+#sudo docker logs -f $CONTAINER_NAME
