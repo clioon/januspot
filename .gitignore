@@ -4,3 +4,6 @@ logs/
 nohup.out
 .env
 venv/
+analysis/venv/
+analysis/exports_csv
+analysis/honeypot.db
