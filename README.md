@@ -23,7 +23,7 @@ The entire project is packaged with Docker and automated with shell scripts, all
 * **Docker-Ready:** Fully containerized for rapid, isolated, and secure deployment.
 * **Deployment Automation:** Includes a `run.sh` script that automatically stops, rebuilds, and relaunches the container with the correct configuration.
 * **Persistent & Safe Logging:** Creates a separate log file for each monitored port (e.g., `logs/honeypot_port_23.log`).
-
+* **Logs Exportation:** Module to parse raw logs into a structured SQLite database and CSV files exportation.
 ---
 
 ## 🚀 Getting Started
@@ -131,12 +131,18 @@ sudo docker stop my-honeypot-container
 > - Because the `run.sh` is using the option `--rm`, the honeypot will automatically stop and remove the container.
 > - If you want the honeypot container to restart when reboot, use the option `--restart=always`.
 
+### 7. Data extraction
+
+To learn more about how to extract and process the log data into SQLite or CSV format, go to the [analysis](analysis) folder.
+
 ---
 
 ## 📁 Project Structure
 
 ```
 .
+├── analysis/         # Logs data extraction module
+│   └── ...
 ├── .dockerignore     
 ├── .env.example      # Example file for configuration
 ├── .gitignore        
